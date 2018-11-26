@@ -48,9 +48,29 @@ describe("Trivia game functionality", function () {
 
   it("Initialize questions", function () {
     let game = new Game();
-    game.popQuestions.length.should.be.equal(50);
-    game.scienceQuestions.length.should.be.equal(50);
-    game.sportsQuestions.length.should.be.equal(50);
-    game.rockQuestions.length.should.be.equal(50);
+    let expectedQuestionLength = 50;
+    game.popQuestions.length.should.be.equal(expectedQuestionLength);
+    game.scienceQuestions.length.should.be.equal(expectedQuestionLength);
+    game.sportsQuestions.length.should.be.equal(expectedQuestionLength);
+    game.rockQuestions.length.should.be.equal(expectedQuestionLength);
+  });
+
+  it("test to identify category", function () {
+    let game = new Game();
+    game.add('foo');
+    game.currentCategory().should.be.equal('Pop');
+  });
+
+  it("test to determine if player is not a winner.", function () {
+    let game = new Game();
+    game.add('foo');
+    game.didPlayerWin().should.be.not.false();
+  });
+
+  it("test to determine if player is a winner.", function () {
+    let game = new Game();
+    game.add('foo');
+    game.purses[game.currentPlayer] = 6;
+    game.didPlayerWin().should.be.false();
   });
 });

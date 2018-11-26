@@ -119,29 +119,33 @@ class Game {
   }
 
   didPlayerWin() {
-    return !(this.purses[this.currentPlayer] == 6)
+    let winningCoinCount = 6;
+    return !(this.purses[this.currentPlayer] === winningCoinCount)
   }
 
   currentCategory() {
-    if (this.places[this.currentPlayer] == 0)
-      return 'Pop';
-    if (this.places[this.currentPlayer] == 4)
-      return 'Pop';
-    if (this.places[this.currentPlayer] == 8)
-      return 'Pop';
-    if (this.places[this.currentPlayer] == 1)
-      return 'Science';
-    if (this.places[this.currentPlayer] == 5)
-      return 'Science';
-    if (this.places[this.currentPlayer] == 9)
-      return 'Science';
-    if (this.places[this.currentPlayer] == 2)
-      return 'Sports';
-    if (this.places[this.currentPlayer] == 6)
-      return 'Sports';
-    if (this.places[this.currentPlayer] == 10)
-      return 'Sports';
-    return 'Rock';
+    let popCategory = 'Pop';
+    let scienceCategory = 'Science';
+    let sportsCategory = 'Sports';
+    let rockCategory = 'Rock';
+    let currentPlayerPosition = this.places[this.currentPlayer];
+
+    if ((currentPlayerPosition === 0) || (currentPlayerPosition === 4) ||
+      (currentPlayerPosition === 8)) {
+      return popCategory;
+    }
+
+    if ((currentPlayerPosition === 1) || (currentPlayerPosition === 5) ||
+      (currentPlayerPosition === 9)) {
+      return scienceCategory;
+    }
+
+    if ((currentPlayerPosition === 2) || (currentPlayerPosition === 6) ||
+      (currentPlayerPosition === 10)) {
+      return sportsCategory;
+    }
+
+    return rockCategory;
   }
 
   askQuestion() {
