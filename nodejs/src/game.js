@@ -42,31 +42,14 @@ class Game {
       if (this.inPenaltyBox[this.currentPlayer]) {
         if (roll % 2 != 0) {
           this.isGettingOutOfPenaltyBox = true;
-
           console.log(`${this.players[this.currentPlayer]} is getting out of the penalty box`);
-          this.places[this.currentPlayer] = this.places[this.currentPlayer] + roll;
-          if (this.places[this.currentPlayer] > 11) {
-            this.places[this.currentPlayer] = this.places[this.currentPlayer] - 12;
-          }
-
-          console.log(`${this.players[this.currentPlayer]}'s new location is ${this.places[this.currentPlayer]}`);
-          console.log(`The category is ${this.currentCategory()}`);
-
-          this.askQuestion();
+          this.currentPlayerNewPosition(roll);
         } else {
           console.log(`${this.players[this.currentPlayer]} is not getting out of the penalty box`);
           this.isGettingOutOfPenaltyBox = false;
         }
       } else {
-        this.places[this.currentPlayer] = this.places[this.currentPlayer] + roll;
-        if (this.places[this.currentPlayer] > 11) {
-          this.places[this.currentPlayer] = this.places[this.currentPlayer] - 12;
-        }
-
-        console.log(`${this.players[this.currentPlayer]}'s new location is ${this.places[this.currentPlayer]}`);
-        console.log(`The category is ${this.currentCategory()}`);
-
-        this.askQuestion();
+        this.currentPlayerNewPosition(roll)
       }
     }
 
@@ -78,15 +61,10 @@ class Game {
           console.log(`${this.players[this.currentPlayer]} now has ${this.purses[this.currentPlayer]} Gold Coins.`);
 
           var winner = this.didPlayerWin();
-          this.currentPlayer += 1;
-          if (this.currentPlayer == this.players.length)
-            this.currentPlayer = 0;
-
+          this.resetCurrentPlayer();
           return winner;
         } else {
-          this.currentPlayer += 1;
-          if (this.currentPlayer == this.players.length)
-            this.currentPlayer = 0;
+          this.resetCurrentPlayer();
           return true;
         }
       } else {
@@ -95,11 +73,7 @@ class Game {
         console.log(`${this.players[this.currentPlayer]} now has ${this.purses[this.currentPlayer]} Gold Coins.`);
 
         var winner = this.didPlayerWin();
-
-        this.currentPlayer += 1;
-        if (this.currentPlayer == this.players.length)
-          this.currentPlayer = 0;
-
+        this.resetCurrentPlayer();
         return winner;
       }
     };
@@ -110,9 +84,8 @@ class Game {
 
       this.inPenaltyBox[this.currentPlayer] = true;
 
-      this.currentPlayer += 1;
-      if (this.currentPlayer == this.players.length)
-        this.currentPlayer = 0;
+      this.resetCurrentPlayer();
+
       return true;
     };
 
@@ -167,6 +140,27 @@ class Game {
       this.sportsQuestions.push("Sports Question " + i);
       this.rockQuestions.push("Rock Question " + i);
     };
+  }
+
+  resetCurrentPlayer() {
+    this.currentPlayer += 1;
+    if (this.currentPlayer === this.howManyPlayers()) {
+      this.currentPlayer = 0;
+    }
+  }
+
+  currentPlayerNewPosition(roll) {
+    let boardSize = 12;
+    let lastPlaceOnTheBoard = boardSize - 1;
+    this.places[this.currentPlayer] = this.places[this.currentPlayer] + roll;
+
+    if (this.places[this.currentPlayer] > lastPlaceOnTheBoard) {
+      this.places[this.currentPlayer] = this.places[this.currentPlayer] - boardSize;
+    }
+
+    console.log(`${this.players[this.currentPlayer]}'s new location is ${this.places[this.currentPlayer]}`);
+    console.log(`The category is ${this.currentCategory()}`);
+    this.askQuestion();
   }
 }
 

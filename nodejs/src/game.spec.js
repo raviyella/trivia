@@ -61,16 +61,68 @@ describe("Trivia game functionality", function () {
     game.currentCategory().should.be.equal('Pop');
   });
 
-  it("test to determine if player is not a winner.", function () {
+  it("test to determine if player is not a winner", function () {
     let game = new Game();
     game.add('foo');
     game.didPlayerWin().should.be.not.false();
   });
 
-  it("test to determine if player is a winner.", function () {
+  it("test to determine if player is a winner", function () {
     let game = new Game();
     game.add('foo');
     game.purses[game.currentPlayer] = 6;
     game.didPlayerWin().should.be.false();
+  });
+
+  it("test player position when dice is rolled", function () {
+    let game = new Game();
+    game.currentPlayer = 0;
+    game.players[game.currentPlayer] = 'foo';
+    game.inPenaltyBox[game.currentPlayer] = false;
+    game.places[game.currentPlayer] = 0;
+    game.roll(1);
+    game.places[game.currentPlayer].should.be.equal(1);
+  });
+
+  it("player place is repositioned and category is changed when dice is rolled - 1", function () {
+    let game = new Game();
+    game.currentPlayer = 0;
+    game.players[game.currentPlayer] = 'foo';
+    game.inPenaltyBox[game.currentPlayer] = false;
+    game.places[game.currentPlayer] = 5;
+    game.roll(1);
+    game.places[game.currentPlayer].should.be.equal(6);
+    game.currentCategory().should.be.equal('Sports');
+  });
+
+  it("player position is restarted when player position is greater than board size", function () {
+    let game = new Game();
+    game.currentPlayer = 0;
+    game.players[game.currentPlayer] = 'foo';
+    game.inPenaltyBox[game.currentPlayer] = false;
+    game.places[game.currentPlayer] = 11;
+    game.roll(1);
+    game.places[game.currentPlayer].should.be.equal(0);
+    game.currentCategory().should.be.equal('Pop');
+  });
+
+  it("player is kept in penalty box when dice rolls even number", function () {
+    let game = new Game();
+    game.currentPlayer = 0;
+    game.players[game.currentPlayer] = 'foo';
+    game.inPenaltyBox[game.currentPlayer] = true;
+    game.places[game.currentPlayer] = 0;
+    game.roll(2);
+    game.isGettingOutOfPenaltyBox.should.be.false();
+  });
+
+  it("player is kept in penalty box when dice rolls odd number", function () {
+    let game = new Game();
+    game.currentPlayer = 0;
+    game.players[game.currentPlayer] = 'foo';
+    game.inPenaltyBox[game.currentPlayer] = true;
+    game.places[game.currentPlayer] = 0;
+    game.roll(1);
+    game.isGettingOutOfPenaltyBox.should.be.true();
   });
 });
