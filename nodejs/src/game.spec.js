@@ -11,6 +11,10 @@ describe("The test environment", function () {
   });
 });
 
-describe("Your specs...", function () {
-  // it ...
+describe("Trivia game functionality", function () {
+  it("Game instance is created", function () {
+    let game = new Game();
+    Should(game).should.be.type('object');
+    Should(game.howManyPlayers()).be.equal(0);
+  });
 });
