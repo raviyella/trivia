@@ -45,4 +45,12 @@ describe("Trivia game functionality", function () {
     game.places[0].should.be.equal(0);
     game.places[1].should.be.equal(0);
   });
+
+  it("Initialize questions", function () {
+    let game = new Game();
+    game.popQuestions.length.should.be.equal(50);
+    game.scienceQuestions.length.should.be.equal(50);
+    game.sportsQuestions.length.should.be.equal(50);
+    game.rockQuestions.length.should.be.equal(50);
+  });
 });

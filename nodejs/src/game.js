@@ -13,12 +13,7 @@ class Game {
     this.currentPlayer = 0;
     this.isGettingOutOfPenaltyBox = false;
 
-    for (var i = 0; i < 50; i++) {
-      this.popQuestions.push("Pop Question " + i);
-      this.scienceQuestions.push("Science Question " + i);
-      this.sportsQuestions.push("Sports Question " + i);
-      this.rockQuestions.push("Rock Question " + i);
-    };
+    this.initializeQuestions();
 
     this.isPlayable = function (howManyPlayers) {
       return this.howManyPlayers() >= 2;
@@ -158,6 +153,16 @@ class Game {
       console.log(this.sportsQuestions.shift());
     if (this.currentCategory() == 'Rock')
       console.log(this.rockQuestions.shift());
+  }
+
+  initializeQuestions(){
+    let questionSize = 50;
+    for (var i = 0; i < questionSize; i++) {
+      this.popQuestions.push("Pop Question " + i);
+      this.scienceQuestions.push("Science Question " + i);
+      this.sportsQuestions.push("Sports Question " + i);
+      this.rockQuestions.push("Rock Question " + i);
+    };
   }
 }
 
