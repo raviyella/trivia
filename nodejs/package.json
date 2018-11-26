@@ -1,0 +1,18 @@
+{
+  "name": "trivia",
+  "version": "1.0.0",
+  "description": "Test with node.js =====================",
+  "main": "game.js",
+  "scripts": {
+    "test": "mocha src/**/*.spec.js",
+    "test-with-coverage": "nyc --reporter=html mocha src/**/*.spec.js"
+  },
+  "author": "",
+  "license": "GPL v3",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
+    "should": "^13.2.1"
+  }
+}
