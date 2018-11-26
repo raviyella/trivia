@@ -21,7 +21,7 @@ class Game {
     };
 
     this.isPlayable = function (howManyPlayers) {
-      return this.howManyPlayers >= 2;
+      return this.howManyPlayers() >= 2;
     };
 
     this.add = function (playerName) {
@@ -30,7 +30,7 @@ class Game {
       this.purses[this.howManyPlayers() - 1] = 0;
       this.inPenaltyBox[this.howManyPlayers() - 1] = false;
 
-      console.log(this.playerName + " was added");
+      console.log(playerName + " was added");
       console.log("They are player number " + this.players.length);
 
       return true;
