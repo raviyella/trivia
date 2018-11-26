@@ -13,15 +13,11 @@ class Game {
     this.currentPlayer = 0;
     this.isGettingOutOfPenaltyBox = false;
 
-    this.createRockQuestion = function (index) {
-      return "Rock Question " + index;
-    };
-
     for (var i = 0; i < 50; i++) {
       this.popQuestions.push("Pop Question " + i);
       this.scienceQuestions.push("Science Question " + i);
       this.sportsQuestions.push("Sports Question " + i);
-      this.rockQuestions.push(this.createRockQuestion(i));
+      this.rockQuestions.push("Rock Question " + i);
     };
 
     this.isPlayable = function (howManyPlayers) {
@@ -58,7 +54,7 @@ class Game {
             this.places[this.currentPlayer] = this.places[this.currentPlayer] - 12;
           }
 
-          console.log(this.players[this.currentPlayer] + "'s new location is " + this.places[currentPlayer]);
+          console.log(this.players[this.currentPlayer] + "'s new location is " + this.places[this.currentPlayer]);
           console.log("The category is " + this.currentCategory());
           this.askQuestion();
         } else {
@@ -67,7 +63,7 @@ class Game {
         }
       } else {
         this.places[this.currentPlayer] = this.places[this.currentPlayer] + roll;
-        if (this.places[cthis.urrentPlayer] > 11) {
+        if (this.places[this.currentPlayer] > 11) {
           this.places[this.currentPlayer] = this.places[this.currentPlayer] - 12;
         }
 
@@ -153,7 +149,6 @@ class Game {
       return 'Sports';
     return 'Rock';
   };
-
 
   askQuestion() {
     if (this.currentCategory() == 'Pop')
