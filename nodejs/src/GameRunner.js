@@ -10,8 +10,7 @@ class GameRunner {
 
     do {
       game.roll(Math.floor(Math.random() * 6) + 1);
-
-      notAWinner = game.getNotWinner();
+      notAWinner = game.getNotWinner(game.checkCurrentAnswer());
     } while (notAWinner);
   }
 }
