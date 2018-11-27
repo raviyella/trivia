@@ -162,6 +162,19 @@ class Game {
     console.log(`The category is ${this.currentCategory()}`);
     this.askQuestion();
   }
+
+  checkCurrentAnswer(){
+    let wrongAnswerId = 10;
+    return (Math.floor(Math.random() * 10) != wrongAnswerId);
+  }
+
+  getNotWinner(){
+    if (this.checkCurrentAnswer()) {
+      return this.wasCorrectlyAnswered();
+    } else {
+      return this.wrongAnswer();
+    }
+  }
 }
 
 module.exports = Game;
