@@ -1,5 +1,5 @@
 const Should = require('should');
-const Game = require('./game.js');
+const Game = require('./Game.js');
 
 describe("The test environment", function () {
   it("should pass", function () {
