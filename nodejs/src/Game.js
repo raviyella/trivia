@@ -1,3 +1,9 @@
+const TOTAL_CATEGORY_SIZE = 50;
+const MINIMUM_NUMBER_OF_PLAYERS = 2;
+const WINNING_COIN_COUNT = 6;
+const WRONG_ANSWER_ID = 7;
+const MAXIMUM_ANSWER_ID = 10;
+
 class Game {
   constructor() {
     this.players = new Array();
@@ -16,7 +22,7 @@ class Game {
     this.initializeQuestions();
 
     this.isPlayable = function (howManyPlayers) {
-      return this.howManyPlayers() >= 2;
+      return this.howManyPlayers() >= MINIMUM_NUMBER_OF_PLAYERS;
     };
 
     this.add = function (playerName) {
@@ -92,8 +98,7 @@ class Game {
   }
 
   didPlayerWin() {
-    let winningCoinCount = 6;
-    return !(this.purses[this.currentPlayer] === winningCoinCount)
+    return !(this.purses[this.currentPlayer] === WINNING_COIN_COUNT)
   }
 
   currentCategory() {
@@ -133,8 +138,7 @@ class Game {
   }
 
   initializeQuestions(){
-    let questionSize = 50;
-    for (var i = 0; i < questionSize; i++) {
+    for (var i = 0; i < TOTAL_CATEGORY_SIZE; i++) {
       this.popQuestions.push("Pop Question " + i);
       this.scienceQuestions.push("Science Question " + i);
       this.sportsQuestions.push("Sports Question " + i);
@@ -164,12 +168,11 @@ class Game {
   }
 
   checkCurrentAnswer(){
-    let wrongAnswerId = 10;
-    return (Math.floor(Math.random() * 10) != wrongAnswerId);
+    return (Math.floor(Math.random() * MAXIMUM_ANSWER_ID) != WRONG_ANSWER_ID);
   }
 
-  getNotWinner(){
-    if (this.checkCurrentAnswer()) {
+  getNotWinner(isAnswerCorrect){
+    if (isAnswerCorrect) {
       return this.wasCorrectlyAnswered();
     } else {
       return this.wrongAnswer();

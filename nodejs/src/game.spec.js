@@ -1,6 +1,18 @@
 const Should = require('should');
 const Game = require('./Game.js');
 
+class FakeGameClass{
+  getNotWinner(isAnswerCorrect){
+    let correctAnswer;
+    if (isAnswerCorrect) {
+      correctAnswer = true;
+    } else {
+      correctAnswer = false;
+    }
+    return correctAnswer;
+  }
+}
+
 describe("The test environment", function () {
   it("should pass", function () {
     (true).should.equal(true);
@@ -124,5 +136,27 @@ describe("Trivia game functionality", function () {
     game.places[game.currentPlayer] = 0;
     game.roll(1);
     game.isGettingOutOfPenaltyBox.should.be.true();
+  });
+
+  it("Not a winner when answer is correct", function () {
+    let game = new FakeGameClass();
+    let isAnswerCorrect = true;
+    game.getNotWinner(isAnswerCorrect).should.be.true();
+  });
+
+  it("Not a winner when answer is incorrect", function () {
+    let game = new FakeGameClass();
+    let isAnswerCorrect = false;
+    game.getNotWinner(isAnswerCorrect).should.be.false();
+  });
+
+  it("player is sent to penalty box when incorrect answer", function () {
+    let game = new Game();
+    game.currentPlayer = 0;
+    game.players[game.currentPlayer] = 'foo';
+    game.howManyPlayers().should.be.equal(1);
+    game.wrongAnswer();
+    game.inPenaltyBox[game.currentPlayer].should.be.true();
+    game.currentPlayer.should.be.equal(0);
   });
 });
