@@ -1,3 +1,5 @@
+let GameLogger = require('./GameLogger.js');
+
 const TOTAL_CATEGORY_SIZE = 50;
 const MINIMUM_NUMBER_OF_PLAYERS = 2;
 const WINNING_COIN_COUNT = 6;
@@ -21,6 +23,8 @@ class Game {
 
     this.initializeQuestions();
 
+    this.gameLogger = new GameLogger();
+
     this.isPlayable = function (howManyPlayers) {
       return this.howManyPlayers() >= MINIMUM_NUMBER_OF_PLAYERS;
     };
@@ -31,9 +35,7 @@ class Game {
       this.purses[this.howManyPlayers() - 1] = 0;
       this.inPenaltyBox[this.howManyPlayers() - 1] = false;
 
-      console.log(`${playerName} was added`);
-      console.log(`They are player number ${this.howManyPlayers()}`)
-
+      this.gameLogger.newPlayerAdded(playerName, this.howManyPlayers());
       return true;
     };
 
@@ -42,17 +44,17 @@ class Game {
     }
 
     this.roll = function (roll) {
-      console.log(`${this.players[this.currentPlayer]} is the current player`);
-      console.log(`They have rolled a ${roll}`);
+      this.gameLogger.currentPlayer(this.players[this.currentPlayer]);
+      this.gameLogger.rolledDice(roll);
 
       if (this.inPenaltyBox[this.currentPlayer]) {
         if (roll % 2 != 0) {
           this.isGettingOutOfPenaltyBox = true;
-          console.log(`${this.players[this.currentPlayer]} is getting out of the penalty box`);
+          this.gameLogger.playerOutOfPenaltyBox(this.players[this.currentPlayer], this.isGettingOutOfPenaltyBox);
           this.currentPlayerNewPosition(roll);
         } else {
-          console.log(`${this.players[this.currentPlayer]} is not getting out of the penalty box`);
           this.isGettingOutOfPenaltyBox = false;
+          this.gameLogger.playerOutOfPenaltyBox(this.players[this.currentPlayer], this.isGettingOutOfPenaltyBox);
         }
       } else {
         this.currentPlayerNewPosition(roll)
@@ -64,8 +66,7 @@ class Game {
         if (this.isGettingOutOfPenaltyBox) {
           console.log(`Answer was correct!!!!`);
           this.purses[this.currentPlayer] += 1;
-          console.log(`${this.players[this.currentPlayer]} now has ${this.purses[this.currentPlayer]} Gold Coins.`);
-
+          this.gameLogger.playerWithTotalGoldCouns(this.players[this.currentPlayer], this.purses[this.currentPlayer]);
           var winner = this.didPlayerWin();
           this.resetCurrentPlayer();
           return winner;
@@ -76,8 +77,7 @@ class Game {
       } else {
         console.log(`Answer was correct!!!!`);
         this.purses[this.currentPlayer] += 1;
-        console.log(`${this.players[this.currentPlayer]} now has ${this.purses[this.currentPlayer]} Gold Coins.`);
-
+        this.gameLogger.playerWithTotalGoldCouns(this.players[this.currentPlayer], this.purses[this.currentPlayer]);
         var winner = this.didPlayerWin();
         this.resetCurrentPlayer();
         return winner;
@@ -85,16 +85,11 @@ class Game {
     };
 
     this.wrongAnswer = function () {
-      console.log(`Question was incorrectly answered`);
-      console.log(`${this.players[this.currentPlayer]} was sent to the penalty box`);
-
+      this.gameLogger.playerSentToPenaltyBox(this.players[this.currentPlayer])
       this.inPenaltyBox[this.currentPlayer] = true;
-
       this.resetCurrentPlayer();
-
       return true;
     };
-
   }
 
   didPlayerWin() {
@@ -162,8 +157,8 @@ class Game {
       this.places[this.currentPlayer] = this.places[this.currentPlayer] - boardSize;
     }
 
-    console.log(`${this.players[this.currentPlayer]}'s new location is ${this.places[this.currentPlayer]}`);
-    console.log(`The category is ${this.currentCategory()}`);
+    this.gameLogger.playerNewLocation(this.players[this.currentPlayer], this.places[this.currentPlayer]);
+    this.gameLogger.playerCurrentCategory(this.currentCategory());
     this.askQuestion();
   }
 
