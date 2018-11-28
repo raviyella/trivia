@@ -1,9 +1,9 @@
 'use strict';
-let instance = null;
+let gameLoggerInstance = null;
 
 class GameLogger {
   constructor(game) {
-    if (!instance) {
+    if (!gameLoggerInstance) {
 
       this.newPlayerAdded = function(playerName, totalPlayers) {
         console.log(`${playerName} was added`);
@@ -43,10 +43,10 @@ class GameLogger {
         console.log(`The category is ${currentCatgory}`);
       }
 
-      instance = this;
+      gameLoggerInstance = this;
     }
 
-    return instance;
+    return gameLoggerInstance;
   }
 }
 
